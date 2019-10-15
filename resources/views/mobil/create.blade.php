@@ -23,27 +23,16 @@
       $(function () {
         $('#formMobil').submit(function (event) {
           var data = $('#spreadsheet').jexcel('getData');
-          var form = $(this);
-
-          jQuery.each(data, function (rowNumber, row) {
-            jQuery.each(row, function (colNumber, value) {
-              var input = $("<input>").attr("type", "hidden").attr("name", "row[" + rowNumber + "]" + "[" + colNumber + "]").val(value);
-              form.append(input);
-            });
-          })
-
           $('#data').val(JSON.stringify(data));
         });
       });
 
 
-      var data = [];
-
       $('#spreadsheet').jexcel({
-        data: data,
+        data: [],
         columns: [
-          {type: 'text', title: 'Mobil', width: 120},
-          {type: 'numeric', title: 'Harga', width: 100, mask: 'Rp#.##,00', decimal: ','},
+          {type: 'text', title: 'Mobil', width: 200},
+          {type: 'numeric', title: 'Harga', width: 300, mask: 'Rp#.##,00', decimal: ','},
         ]
       });
 
