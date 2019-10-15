@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('mobil', 'MobilController@index')->name('mobil.index');
+Route::get('mobil/create', 'MobilController@create')->name('mobil.create');
+Route::post('mobil', 'MobilController@store')->name('mobil.store');
