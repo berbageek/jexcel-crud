@@ -16,7 +16,8 @@ class CreateTableMobil extends Migration
         Schema::create('mobil', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama');
-            $table->decimal('harga', 12, 2);
+            $table->decimal('harga', 12, 0);
+            $table->unsignedInteger('posisi')->default(1);
             $table->timestamps();
         });
     }

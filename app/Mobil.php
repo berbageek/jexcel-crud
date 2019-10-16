@@ -8,5 +8,5 @@ class Mobil extends Model
 {
     protected $table = 'mobil';
 
-    protected $fillable = ['nama', 'harga'];
+    protected $fillable = ['nama', 'harga', 'posisi'];
 }

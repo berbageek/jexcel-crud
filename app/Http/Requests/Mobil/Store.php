@@ -20,12 +20,13 @@ class Store extends FormRequest
     {
         $data = json_decode(request('data'));
         $formattedData = [];
-        $formatter = new \NumberFormatter('id_ID', \NumberFormatter::CURRENCY);
 
-        foreach ($data as $row) {
+        foreach ($data as $index => $row) {
             $formattedData[] = [
-                'nama' => $row[0],
-                'harga' => $formatter->parseCurrency($row[1], $curr) ?: null,
+                'id' => $row[0],
+                'nama' => $row[1],
+                'harga' => filter_var($row[2], FILTER_SANITIZE_NUMBER_INT),
+                'posisi' => $index + 1,
             ];
         }
 
