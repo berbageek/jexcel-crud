@@ -9,7 +9,6 @@
     {!! form()->submit('Submit') !!}
     {!! form()->close() !!}
 
-
 @endsection
 
 @push('script')
@@ -29,13 +28,16 @@
 
 
       $('#spreadsheet').jexcel({
-        data: [],
+        data: {!! old('data', "[]") !!},
         columns: [
           {type: 'text', title: 'Mobil', width: 200},
           {type: 'numeric', title: 'Harga', width: 300, mask: 'Rp#.##,00', decimal: ','},
         ]
       });
 
+      @if(!old('data'))
       $('#spreadsheet').jexcel('insertRow', 10, 0);
+      @endif
+
     </script>
 @endpush
