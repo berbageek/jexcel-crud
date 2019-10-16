@@ -18,7 +18,18 @@ class Store extends FormRequest
 
     public function prepareForValidation()
     {
-        $this->merge(['data' => json_decode(request('data'))]);
+        $data = json_decode(request('data'));
+        $formattedData = [];
+        $formatter = new \NumberFormatter('id_ID', \NumberFormatter::CURRENCY);
+
+        foreach ($data as $row) {
+            $formattedData[] = [
+                'nama' => $row[0],
+                'harga' => $formatter->parseCurrency($row[1], $curr) ?: null,
+            ];
+        }
+
+        $this->merge(['data' => $formattedData]);
     }
 
     /**
@@ -29,8 +40,16 @@ class Store extends FormRequest
     public function rules()
     {
         return [
-            'data.*.0' => ['required'],
-            'data.*.1' => ['required'],
+            'data.*.nama' => ['required'],
+            'data.*.harga' => ['required'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'data.*.nama.required' => 'Nama wajib diisi',
+            'data.*.harga.required' => 'Harga wajib diisi',
         ];
     }
 }

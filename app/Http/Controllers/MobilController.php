@@ -22,13 +22,9 @@ class MobilController extends Controller
     public function store(Store $request)
     {
         $data = $request->get('data');
-        $formatter = new \NumberFormatter('id_ID', \NumberFormatter::CURRENCY);
 
         foreach ($data as $row) {
-            $mobil = new Mobil();
-            $mobil->nama = $row[0];
-            $mobil->harga = $formatter->parseCurrency($row[1], $curr);
-            $mobil->save();
+            Mobil::create($row);
         }
 
         return redirect()->back()->withSuccess(sprintf("Berhasil menyimpan %d data mobil", count($data)));
