@@ -41,6 +41,17 @@ class MobilController extends Controller
             }
         });
 
+        if ($request->expectsJson()) {
+            sleep(1);
+            $items = Mobil::orderBy('posisi')
+                ->get(['id', 'nama', 'harga'])
+                ->transform(function ($item) {
+                    return array_values($item->toArray());
+                });
+
+            return response()->json($items);
+        }
+
         return redirect()->back()->withSuccess(sprintf("Berhasil menyimpan %d data mobil", count($data)));
     }
 }

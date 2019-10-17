@@ -3,7 +3,7 @@
 
     {!! form()->open(route('mobil.store'))->id('formMobil') !!}
     <input type="hidden" name="data" id="data">
-    <h2 class="ui header">Daftar Mobil</h2>
+    <h2 class="ui header">Daftar Mobil <span style="font-weight: normal; font-style: italic" id="status"></span></h2>
     <div id="spreadsheet"></div>
     <div class="ui divider hidden"></div>
     {!! form()->submit('Simpan') !!}
@@ -39,6 +39,27 @@
       @if(!old('data') && $items->isEmpty())
       $('#spreadsheet').jexcel('insertRow', 10, 0);
       @endif
+
+      setInterval(sync, 10000);
+
+      function sync() {
+        var data = $('#spreadsheet').jexcel('getData');
+        $('#status').html('Saving...');
+
+        $.post("{{ route('mobil.store') }}", {data: JSON.stringify(data), _token: "{{ csrf_token() }}"})
+          .done(function (data) {
+            $('#status').html('Saved');
+            $('#spreadsheet').jexcel('setData', data);
+          })
+          .fail(function () {
+            $('#status').html('Error');
+          })
+          .always(function () {
+            setTimeout(function () {
+              $('#status').html('');
+            }, 3000)
+          });
+      }
 
     </script>
 @endpush
